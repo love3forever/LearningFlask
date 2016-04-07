@@ -7,10 +7,14 @@ import bleach
 from flask import current_app,request
 from flask.ext.login import UserMixin,AnonymousUserMixin
 from db import client
-
+from random import randint
 
 class User(UserMixin):
-	def __init__(self,email,username,password,location,about_me):
+	def __init__(self,id=None,email=None,username=None,password=None,location=None,about_me=None):
+		if id is None:
+			self.id=randint(1,10000)
+		else:
+			self.id=id
 		self.email=email
 		self.username = username
 		self.password = password
@@ -20,6 +24,7 @@ class User(UserMixin):
 		self.client = client
 		self.col = client['flask']['users']
 		self.data = {
+					"id":self.id,
 					"email":self.email,
 					"username":self.username,
 					"password":password,
@@ -33,13 +38,21 @@ class User(UserMixin):
 		col = client['flask']['users']
 		cursor = col.find(data).limit(1)
 		for doc in cursor:
-			u =User(email=doc['email'],
+			u =User(id=doc['id'],
+					 email=doc['email'],
                      username=doc['username'],
                      password=doc['password'],
                      location=doc['location'],
                      about_me=doc['about_me']
                      )
 			return u 
+
+	@staticmethod
+	def commit(data):
+		col = client['flask']['users']
+		col.insert_one(data)
+
+
 	@staticmethod
 	def generate_fake(count=100):
 		from random import seed
@@ -104,9 +117,4 @@ class User(UserMixin):
 			{"$set":{"password":self.password}}
 			)
 		return True
-
-
-User.generate_fake(100)
-
-print User.query({'username':'martha65'}).email
 
