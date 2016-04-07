@@ -1,0 +1,27 @@
+{%extends "base.html"%}
+{%block page_content%}
+<p>That was {{moment(current_time).fromNow(refresh=True) }}</p>
+<p><strong>These are the tags for book</strong></p>
+<table>
+	<tbody>
+	{%if tags %}
+		{%for tag in tags%}
+			{% if flag%4==0 %}
+			<tr>
+			{%endif%}
+			<td>
+			<!--a href="https://www.douban.com/tag/{{tag.decode('utf-8')}}/?focus=book" class="tag">{{tag.decode('utf-8')}}</a-->
+			<a href="http://localhost:5000/bookinfo/{{flag+1}}" class="tag">{{tag.decode('utf-8')}}</a>
+			</td>
+			{%set flag=flag+1%}
+			{% if flag%4==0 %}
+			</tr>
+			{%endif%}
+		{%endfor%}
+	{%endif%}
+	</tbody>
+</table>
+<div class="page_header">
+	<h1>Hello</h1>
+</div>
+{%endblock%}

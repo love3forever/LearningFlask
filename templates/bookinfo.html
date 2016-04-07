@@ -1,0 +1,78 @@
+{%extends "base.html"%}
+{% block head %}
+{{ super() }}
+
+<link href="{{url_for('static',filename='bookinfo.css')}}" rel="stylesheet" media="screen">
+
+{% endblock %}
+{%block page_content%}
+<div class="container-fluid" id="LG">
+	{%if bookdata%}
+		{%for book in bookdata%}
+		{% if flag%3==0 %}
+		<hr/>
+		<div class="row-fluid">
+		{%endif%}
+			<div class="col-xs-4">
+				<div class="row-fluid">
+					<div class="span6">
+						<img alt="140x140" src={{book['image']}} />
+					</div>
+					<div class="span6">
+						<a href="{{book['alt']}}">{{book['title']}}</a>
+						<br>
+						<p class="desc">
+							{{book['author'][0]}}/{{book['publisher']}}/{{book['pubdate']}}/{{book['price']}}
+						</p>
+						<span class="label" >豆瓣评分：{{'[%s]'.decode('utf-8') %book['rating']['average']}}</span>
+					</div>
+				</div>
+			</div>
+		{%set flag=flag+1%}
+		{%if flag%3==0%}
+		<hr/>
+		</div>		
+		{%endif%}
+
+		{%endfor%}
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="pagination pagination-centered pagination-large">
+					<ul>
+						<li>
+							<a href="#">上一页</a>
+						</li>
+						<li>
+							<a href="#">1</a>
+						</li>
+						<li>
+							<a href="#">2</a>
+						</li>
+						<li>
+							<a href="#">3</a>
+						</li>
+						<li>
+							<a href="#">4</a>
+						</li>
+						<li>
+							<a href="#">5</a>
+						</li>
+						<li>
+							<a href="#">6</a>
+						</li>
+						<li>
+							<a href="#">7</a>
+						</li>
+						<li>
+							<a href="#">8</a>
+						</li>
+						<li>
+							<a href="#">下一页</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		{%endif%}
+</div>
+{%endblock%}

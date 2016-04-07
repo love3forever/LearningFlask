@@ -1,0 +1,336 @@
+html, body {
+    height: 100%;
+}
+
+@media all and (max-width: 767px) {
+    body {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+@media all and (min-width: 979px) {
+    body {
+        padding-top: 50px !important;
+    }
+}
+
+#container {
+    min-height: 100%;
+    padding: 1em;
+}
+
+#footer {
+    clear: both;
+    position: relative;
+    z-index: 10;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+#content {
+    padding-bottom: 3em;
+}
+
+a {
+    color: #4b73a6;
+    text-decoration: none;
+    -webkit-transition: color .1s linear;
+    -moz-transition: color .1s linear;
+    -ms-transition: color .1s linear;
+    -o-transition: color .1s linear;
+    transition: color .1s linear;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #CCC;
+}
+
+input:-moz-placeholder, textarea:-moz-placeholder {
+    color: #CCC;
+}
+
+.img-rounded,
+.well {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.container {
+    .credit {
+        margin: 20px 0;
+    }
+}
+
+.dropdown-menu {
+    li a {
+        text-align: left;
+    }
+}
+
+.popover-title {
+    font-size: 110%;
+}
+
+.popover-content {
+    font-size: 90%;
+}
+
+.well, pre {
+    background-color: white;
+}
+
+.pagination {
+    margin-bottom: 0px;
+    ul {
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.05);
+    }
+}
+
+.errorlist li{
+    color: red;
+}
+
+.margin-medium {
+    margin: 6px;
+}
+
+.margin-zero {
+    margin: 0;
+}
+
+.book-index {
+
+    * {
+        box-sizing: border-box;
+    }
+
+    li {
+        display: inline-block;
+        width: 100%;
+        float: left;
+        padding: 5px;
+
+        .well {
+            position: relative;
+            height: 190px;
+            padding: 5px;
+            margin-bottom: 0;
+        }
+
+        @media all and (min-width: 360px) {
+            width: 50%;
+        }
+
+        @media all and (min-width: 768px) {
+            width: 25%;
+            padding: 10px;
+            .well {
+                padding: 10px;
+            }
+        }
+        @media all and (min-width: 1200px) {
+            width: 20%;
+        }
+    }
+}
+
+
+.book-similar li {
+    width: 100px;
+    height: 150px;
+    padding: 5px 5px 0px 0px;
+    margin: 0px 20px 10px 0px;
+}
+
+.book-cover {
+    width: 100px;
+    max-height: 150px;
+}
+
+.book-summary {
+    margin-top: 12px;
+}
+
+.meta {
+    position: absolute;
+    bottom: 5px;
+}
+
+.douban {
+    position: absolute;
+    right: 20px;
+}
+
+/*message*/
+.messages {
+    list-style-type: none;
+    top: 50px;
+    right: 10px;
+    position: absolute;
+    z-index: 200;
+}
+
+.messages li {
+    margin: 10px 0;
+    padding: 18px 28px;
+    border: 1px solid #ccc;
+    font-size: 16px
+}
+
+.messages li:hover {
+    -webkit-transform: scale(1.1);
+       -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+         -o-transform: scale(1.1);
+            transform: scale(1.1);
+    cursor: pointer;
+}
+
+.pro {
+    vertical-align: middle;
+}
+
+#id_goto {
+    width: 40px;
+    margin-left: 10px;
+}
+
+.form-tag {
+    margin-top: 20px;
+}
+
+.book-form input,textarea {
+    width: 96%;
+}
+
+.required label {
+    /*color: red;*/
+}
+
+.required label:before {
+    content:"*";
+}
+.helptext {
+    font-size: 12px;
+    color: #999;
+}
+
+.btn-pay {
+    background-image: url(/static/base/img/alipay.jpg);
+    background-position:  0px 0px;
+    background-repeat: no-repeat;
+    margin-top: 10px;
+    width: 360px;
+    height: 100px;
+    border: 0px;
+}
+
+.ad-image > li {
+    margin-right: 8px;
+}
+
+#lightbox {
+    display: none;
+    position: fixed;
+    padding-top: 20px;
+    width: 100%;
+    background-color: rgba(0,0,0,.85);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+    z-index: 1031;
+    opacity: 1;
+    -moz-transition: opacity 0.15s ease-out;
+    -o-transition: opacity 0.25s ease-out;
+    -webkit-transition: opacity 0.25s ease-out;
+    -ms-transition: opacity 0.25s ease-out;
+    transition: opacity 0.25s ease-out;
+}
+
+#pjax-close {
+    width: 24px;
+    height: 24px;
+    top: -30px;
+    right: -30px;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    background-color: #48c2e2;
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    z-index: 1033;
+    font-size: 18px;
+    padding-bottom: 4px;
+    color: white;
+    font-weight: 400;
+    opacity: 1;
+}
+
+.noscroll {
+    overflow: hidden;
+}
+
+#split {
+    margin-bottom: 60px;
+}
+
+.btn-long {
+    width: 100px;
+}
+
+img.avatar-small {
+    height: 24px;
+    width: 24px;
+}
+
+img.avatar-large {
+    height: 100px;
+    width: 100px;
+}
+
+.talk-short {
+    width: 60%;
+}
+
+#go-to {
+    margin-bottom: 0;
+}
+
+.card-info {
+    position: absolute;
+    top: 10px;
+    right: 2px;
+}
+
+.pushmail-inverse {
+    color: #999 !important;
+}
+
+.img-responsive {
+    max-width: 100%;
+}
+
+.img-full {
+    width: 100%;
+}
+
+#book-tags {
+    margin-bottom: 10px;
+}
+
+#similar-books {
+    box-sizing: border-box;
+    padding: 0;
+    li {
+        box-sizing: border-box;
+        width: 24%;
+        padding: 0;
+        img {
+            vertical-align: bottom;
+        }
+    }
+}
