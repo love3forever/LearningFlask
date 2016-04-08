@@ -118,3 +118,4 @@ class User(UserMixin):
 			)
 		return True
 
+print User.query({'username':'joyce74'}).location
