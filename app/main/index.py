@@ -9,31 +9,34 @@ from bookdata import get_bookinfo
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordRestRequestForm, PasswordResetForm, ChangeEmailForm
-from .. import email
-from . import send_email
-
-
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
+from _email import send_email
+from config import Config
+from models import User
 
 
 app = Flask(__name__)
+app.config=Config.init_app(app.config)
 
 manager = Manager(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
-login_manager.init_app(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
 
 # Things about User
-@before_app_request
+'''@before_app_request
 def berfore_request():
     if current_user.is_authenticated:
         if not current_user.confirmed \
                 and request.endpoint[:5] != 'auth.' \
                 and request.endpoint != 'static':
-            return redirect(url_for('unconfirmed'))
+            return redirect(url_for('unconfirmed'))'''
 
 
 @app.route('/unconfirmed')
@@ -52,7 +55,7 @@ def login():
             login_user(user, form.remember_me.data)
             return redirect(request.args.get('next') or url_for('index'))
         flash('Invalid username or password')
-    return render_template('login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @app.route('/logout')
@@ -76,7 +79,7 @@ def register():
                    user=user, token=token)
         flash('A confirmation email has been sent to you')
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    return render_template('auth/register.html', form=form)
 
 
 @app.route('/confirm/<token>')
@@ -95,7 +98,7 @@ def confirm(token):
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email(current_user.email, 'Confirm your account', '/auth/email/confirm',
+    send_email(current_user.email, 'Confirm your account', 'auth/email/confirm',
                user=current_user, token=token)
     flash('A new confirmation email has been sent to you!')
     return redirect(url_for('index'))

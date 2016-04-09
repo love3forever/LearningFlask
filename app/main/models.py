@@ -118,5 +118,3 @@ class User(UserMixin):
             {"$set": {"password": self.password}}
         )
         return True
-
-print User.query({'username': 'joyce74'}).location
