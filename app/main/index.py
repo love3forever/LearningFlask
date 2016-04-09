@@ -6,6 +6,7 @@ from flask.ext.moment import Moment
 from datetime import datetime
 from get_tags import get_tags
 from bookdata import get_bookinfo
+from moviedata import get_movieinfo
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordRestRequestForm, PasswordResetForm, ChangeEmailForm
@@ -136,6 +137,16 @@ def movietags():
         return render_template('index.html', current_time=datetime.utcnow())
 
 
+@app.route('/movieinfo/<movietag>')
+def movieinfo(movietag):
+    page = request.args.get('page', 1, type=int)
+    moviedata = get_movieinfo(movietag, page)
+    if moviedata:
+        return render_template('movieinfo.html', moviedata=moviedata, flag=0, movietag=movietag)
+    else:
+        return render_template('index.html', current_time=datetime.utcnow())
+
+
 @app.route('/book')
 def booktags():
     tags = get_tags('book')
@@ -151,8 +162,7 @@ def bookinfo(booktag):
     bookdata = get_bookinfo(booktag, page)
     print booktag
     if bookdata:
-        print booktag
-        return render_template('bookinfo.html', bookdata=bookdata, flag=0,booktag=booktag)
+        return render_template('bookinfo.html', bookdata=bookdata, flag=0, booktag=booktag)
     else:
         return render_template('index.html', current_time=datetime.utcnow())
 
