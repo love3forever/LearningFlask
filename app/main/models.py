@@ -17,23 +17,23 @@ class User(UserMixin):
             self.id = randint(1, 10000)
         else:
             self.id = id
-        self.email = email
-        self.username = username
-        self.password = password
-        self.confirmed = False
-        self.location = location
-        self.about_me = about_me
-        self.client = client
-        self.col = client['flask']['users']
-        self.data = {
-            "id": self.id,
-            "email": self.email,
-            "username": self.username,
-            "password": password,
-            "confirmed": self.confirmed,
-            "location": self.location,
-            "about_me": self.about_me
-        }
+            self.email = email
+            self.username = username
+            self.password = password
+            self.confirmed = False
+            self.location = location
+            self.about_me = about_me
+            self.client = client
+            self.col = client['flask']['users']
+            self.data = {
+                "id": self.id,
+                "email": self.email,
+                "username": self.username,
+                "password": password,
+                "confirmed": self.confirmed,
+                "location": self.location,
+                "about_me": self.about_me
+            }
 
     @staticmethod
     def query(data):
@@ -118,3 +118,15 @@ class User(UserMixin):
             {"$set": {"password": self.password}}
         )
         return True
+
+    @property
+    def is_autenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False

@@ -3,10 +3,12 @@ from flask import current_app, render_template
 from flask.ext.mail import Message
 from flask.ext.mail import Mail
 
+mail = Mail()
+
 
 def send_async_email(app, msg):
     with app.app_context():
-        Mail.send(msg)
+        mail.send(msg)
 
 
 def send_email(to, subject, template, **kwargs):

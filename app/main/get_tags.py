@@ -8,11 +8,11 @@ def get_tags(category):
     filename = ''
 
     if category == "movie":
-        filename = './tag/movies.html'
+        filename = '../tag/movies.html'
     elif category == "book":
-        filename = './tag/books.html'
+        filename = '../tag/books.html'
     elif category == "music":
-        filename = './tag/music.html'
+        filename = '../tag/music.html'
     else:
         print "Haven't added this tag yet"
 
