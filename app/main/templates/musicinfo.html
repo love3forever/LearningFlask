@@ -1,0 +1,63 @@
+{%extends "base.html"%}
+{% block head %}
+{{ super() }}
+
+<link href="{{url_for('static',filename='bookinfo.css')}}" rel="stylesheet" media="screen">
+
+{% endblock %}
+{%block page_content%}
+<div class="container-fluid" id="LG">
+	{%if musicdata%}
+		{%for music in musicdata%}
+		{% if flag%3==0 %}
+		<hr/>
+		<div class="row-fluid">
+		{%endif%}
+			<div class="col-xs-4">
+				<div class="row-fluid">
+					<div class="span6">
+						<img alt="140x140" src={{music['image']}} />
+					</div>
+					<div class="span6">
+						<a href="{{music['alt']}}">{{music['title']}}</a>
+						<br>
+						<p class="desc">
+						{%if music['author']%}
+						{{music['author'][0]['name']}}
+						{%endif%}
+						{%if music['attrs']['pubdate']%}
+							/{{music['attrs']['pubdate'][0]}}
+						{%endif%}
+						</p>
+						<span class="label" >豆瓣评分：{{'[%s]'.decode('utf-8') %music['rating']['average']}}</span>
+					</div>
+				</div>
+			</div>
+		{%set flag=flag+1%}
+		{%if flag%3==0%}
+		<hr/>
+		</div>		
+		{%endif%}
+
+		{%endfor%}
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="pagination pagination-centered pagination-large">
+					<ul>
+						<li>
+							<a href="#">上一页</a>
+						</li>
+						{%for next in range(1,9)%}
+						<li>
+							<a href="http://localhost:5000/musicinfo/{{musictag}}?page={{next}}">{{next}}</a>
+						{%endfor%}
+						<li>
+							<a href="#">下一页</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		{%endif%}
+</div>
+{%endblock%}

@@ -7,6 +7,7 @@ from datetime import datetime
 from get_tags import get_tags
 from bookdata import get_bookinfo
 from moviedata import get_movieinfo
+from musicdata import get_musicinfo
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordRestRequestForm, PasswordResetForm, ChangeEmailForm
@@ -124,6 +125,17 @@ def musictags():
     tags = get_tags('music')
     if tags != []:
         return render_template('music.html', current_time=datetime.utcnow(), tags=tags, flag=0)
+    else:
+        return render_template('index.html', current_time=datetime.utcnow())
+
+
+@app.route('/musicinfo/<musictag>')
+def musicinfo(musictag):
+    page = request.args.get('page', 1, type=int)
+    musicdata = get_musicinfo(musictag, page)
+    print musictag
+    if musicdata:
+        return render_template('musicinfo.html', musicdata=musicdata, flag=0, musictag=musictag)
     else:
         return render_template('index.html', current_time=datetime.utcnow())
 
