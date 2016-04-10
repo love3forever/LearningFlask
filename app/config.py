@@ -18,15 +18,13 @@ class Config:
 
     @staticmethod
     def init_app(app):
-        app['SECRET_KEY'] = os.environ.get(
-            'SECRET_KEY') or 'hard to guess string'
-        app['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-        app['MAIL_SERVER'] = 'smtp.163.com'
-        app['MAIL_PORT'] = 25
+        app['SECRET_KEY']=os.environ.get('SECRET_KEY') or 'hard to guess string'
+        app['SQLALCHEMY_COMMIT_ON_TEARDOWN']=True
+        app['MAIL_SERVER']='smtp.163.com'
+        app['MAIL_PORT']=25
         app['MAIL_USE_TLS'] = True
-        app['MAIL_USERNAME'] = os.environ.get(
-            'MAIL_USERNAME') or "eclipse_sv@163.com"
-        app['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') or "wm168913"
+        app['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME') 
+        app['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
         app['FLASKY_MAIL_SUBJECT_PREFIX'] = '[RWL]'
         app['FLASKY_MAIL_SENDER'] = 'RWL Admin <eclipse_sv@163.com>'
         app['FLASKY_ADMIN'] = os.environ.get('RWL')
