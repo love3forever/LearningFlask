@@ -1,2 +1,2 @@
 import config
-import email
+import _email
