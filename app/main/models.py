@@ -61,14 +61,12 @@ class User(UserMixin):
 
         seed()
         for i in range(count):
-            u = User(email=forgery_py.internet.email_address(),
-                     username=forgery_py.internet.user_name(True),
-                     password=forgery_py.lorem_ipsum.word(),
-                     location=forgery_py.address.city(),
-                     about_me=forgery_py.lorem_ipsum.sentence())
-            data = u.data
-
-            u.col.insert_one(data)
+            u = {"email":forgery_py.internet.email_address(),
+                 "username":forgery_py.internet.user_name(True),
+                 "password":forgery_py.lorem_ipsum.word(),
+                 "location":forgery_py.address.city(),
+                 "about_me":forgery_py.lorem_ipsum.sentence()}
+            User.commit(u)
 
     @property
     def password(self):
