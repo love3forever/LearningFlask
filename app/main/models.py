@@ -17,23 +17,23 @@ class User(UserMixin):
             self.id = randint(1, 10000)
         else:
             self.id = id
-            self.email = email
-            self.username = username
-            self.password = password
-            self.confirmed = False
-            self.location = location
-            self.about_me = about_me
-            self.client = client
-            self.col = client['flask']['users']
-            self.data = {
-                "id": self.id,
-                "email": self.email,
-                "username": self.username,
-                "password": password,
-                "confirmed": self.confirmed,
-                "location": self.location,
-                "about_me": self.about_me
-            }
+        self.email = email
+        self.username = username
+        self.password = password
+        self.confirmed = False
+        self.location = location
+        self.about_me = about_me
+        self.client = client
+        self.col = client['flask']['users']
+        self.data = {
+            "id": self.id,
+            "email": self.email,
+            "username": self.username,
+            "password": password,
+            "confirmed": self.confirmed,
+            "location": self.location,
+            "about_me": self.about_me
+        }
 
     @staticmethod
     def query(data):
@@ -77,6 +77,7 @@ class User(UserMixin):
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
+        print self.password_hash
         return check_password_hash(self.password_hash, password)
 
     def generate_confirmation_token(self, expiration=3600):
