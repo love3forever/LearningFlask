@@ -39,15 +39,18 @@ class User(UserMixin):
     def query(data):
         col = client['flask']['users']
         cursor = col.find(data).limit(1)
-        for doc in cursor:
-            u = User(id=doc['id'],
-                     email=doc['email'],
-                     username=doc['username'],
-                     password=doc['password'],
-                     location=doc['location'],
-                     about_me=doc['about_me']
-                     )
-            return u
+        if cursor: 
+            for doc in cursor:
+                u = User(id=doc['id'],
+                         email=doc['email'],
+                         username=doc['username'],
+                         password=doc['password'],
+                         location=doc['location'],
+                         about_me=doc['about_me']
+                         )
+                return u
+        else:
+            return None
 
     @staticmethod
     def commit(data):
@@ -129,3 +132,11 @@ class User(UserMixin):
     @property
     def is_anonymous(self):
         return False
+
+    @property
+    def get_id(self):
+        if self.id:
+            return unicode(self.id)
+        else:
+            return None
+    

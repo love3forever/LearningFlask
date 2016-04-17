@@ -1,0 +1,8 @@
+{%extends "base.html"%}
+{%block page_content%}
+<p>That was {{moment(current_time).fromNow(refresh=True) }}</p>
+<p><strong>These are the hotest topics</strong></p>
+{%if pagedata%}
+{{pagedata}}
+{%endif%}
+{%endblock%}

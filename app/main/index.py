@@ -11,12 +11,14 @@ from musicdata import get_musicinfo
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
 from forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordRestRequestForm, PasswordResetForm, ChangeEmailForm
+from DBdata import dbuser
 import os
 import sys
 sys.path.append('..')
 from _email import send_email, mail
 from config import Config
 from models import User
+
 
 
 app = Flask(__name__)
@@ -46,7 +48,7 @@ def berfore_request():
 
 @login_manager.user_loader
 def load_user(id):
-    return User.query({'id': id})
+    return User.query({'id': int(id)})
 
 
 @app.route('/unconfirmed')
@@ -63,6 +65,10 @@ def login():
         user = User.query({'email': form.email.data})
         if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
+            flash('Logged in sucessfully')
+            next = flask.request.args.get('next')
+            if not next_is_invlid(next):
+                return flask.abort(400)
             return redirect(request.args.get('next') or url_for('index'))
         flash('Invalid username or password')
     return render_template('auth/login.html', form=form)
@@ -177,6 +183,15 @@ def bookinfo(booktag):
         return render_template('bookinfo.html', bookdata=bookdata, flag=0, booktag=booktag)
     else:
         return render_template('index.html', current_time=datetime.utcnow())
+
+
+@app.route('/topic')
+def hottopic():
+    firstpage = dbuser.get_firstpage()
+    if firstpage:
+        return render_template('topic.html',current_time=datetime.utcnow(),pagedata=firstpage)
+    else:
+        return render_template('index.html',current_time=datetime.utcnow())
 
 
 if __name__ == '__main__':
