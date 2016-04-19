@@ -8,9 +8,12 @@ import cookielib
 import random
 import os
 from bs4 import BeautifulSoup
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
-email = '810945139@qq.com'
-password = 'wm168913'
+email = 'xxx@qq.com'
+password = 'xxxx'
 cookies_file = 'Cookies_saved.txt'
 
 
@@ -117,14 +120,13 @@ class douban_robot:
         request = urllib2.Request("https://www.douban.com/group/whu/")
         request.add_header('Referer',"https://www.douban.com/") 
         html_data = self.opener.open(request).read()
-        soup = BeautifulSoup(html_data)
+        #import chardet
+        #print chardet.detect(html_data)
+        soup = BeautifulSoup(html_data,"html5lib")
         for item in soup.find_all('table'):
-            chilesoup = BeautifulSoup(str(item))
+            chilesoup = BeautifulSoup(item.encode('utf-8'),"html5lib")
             childtable = chilesoup.table
             if 'class' in childtable.attrs:
                 return childtable
-            #if str(chilesoup.table['class']) == u"olt":
-                #print chilesoup
 
-
-        #return soup.findall('table')
+####Test Codes#####

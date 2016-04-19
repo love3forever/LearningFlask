@@ -3,6 +3,6 @@
 <p>That was {{moment(current_time).fromNow(refresh=True) }}</p>
 <p><strong>These are the hotest topics</strong></p>
 {%if pagedata%}
-{{pagedata}}
+{{pagedata|safe}}
 {%endif%}
 {%endblock%}

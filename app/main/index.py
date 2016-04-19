@@ -1,5 +1,5 @@
 #-*- coding: UTF-8 -*-
-from flask import Flask, render_template, redirect, request, url_for, flash
+from flask import Flask, render_template, redirect, request, url_for, flash,Markup
 from flask.ext.script import Manager
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.moment import Moment
@@ -188,8 +188,9 @@ def bookinfo(booktag):
 @app.route('/topic')
 def hottopic():
     firstpage = dbuser.get_firstpage()
+    print Markup(firstpage)
     if firstpage:
-        return render_template('topic.html',current_time=datetime.utcnow(),pagedata=firstpage)
+        return render_template('topic.html',current_time=datetime.utcnow(),pagedata=Markup(firstpage))
     else:
         return render_template('index.html',current_time=datetime.utcnow())
 
