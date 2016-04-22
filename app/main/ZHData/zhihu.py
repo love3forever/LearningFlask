@@ -23,6 +23,9 @@ except:
     pass
 
 from bs4 import BeautifulSoup
+import sys
+sys.path.append('..')
+from db import client
 
 
 # 构造 Request headers
@@ -38,6 +41,8 @@ try:
     session.cookies.load(ignore_discard=True)
 except:
     print("Cookie 未能加载")
+
+
 
 
 def get_xsrf():
@@ -136,6 +141,7 @@ def get_topics():
                 a = item.a
                 topic = topicurl + a['href'].encode('utf-8')
                 topics.append(topic)
+                break
         return topics
     else:
         account = input('请输入你的用户名\n>  ')
@@ -161,6 +167,7 @@ def get_subtopics():
                     #print type(item)
                     answerurl = url +item['href']+"/top-answers"
                     topanswers.append(answerurl)
+                    break
     return topanswers
 
 # 获取到子话题之后，从每个子话题的精华回答中挑选前20个问题
@@ -179,11 +186,13 @@ def get_topanswer():
                     questionurl = url+child['href']
                     print questionurl
                     questions.append(questionurl)
-            break
+        #break
         return questions
 
 # 将精华话题中排名前20个回答获取，记录回答人信息、回答内容
 def get_individual():
+    # 初始化数据库信息
+    db = client['Zhihu']['Topanswers']
     topanswers = get_topanswer()
     url = "https://www.zhihu.com"
     individual = []
@@ -200,25 +209,73 @@ def get_individual():
                 speaker = soup.select('.zm-item-answer', _candidate_generator=None, limit=20)
                 if speaker:
                     for s in speaker:
-                        authorinfo = s.select('.author-link')[0]
-                        authorurl = url + authorinfo['href']
-                        authorid = authorinfo.next_element.encode('utf-8')
-                        content = s.select('.zm-editable-content')[0].strings
-                        contstr =[]
-                        print type(content)
-                        for st in content:
-                            contstr.append(st.encode('utf-8'))
-                        bson = {
-                        'questionurl':questionurl.encode('utf-8'),
-                        'question':question,
-                        'authorurl':authorurl.encode('utf-8'),
-                        'authorid':authorid,
-                        'content':contstr
-                        }
-                        print bson
+                        try:
+                            authorinfo = s.select('.author-link')[0]
+                            authorurl = url + authorinfo['href']
+                            authorid = authorinfo.next_element.encode('utf-8')
+                            content = s.select('.zm-editable-content')[0].strings
+                            contstr =[]
+                            print type(content)
+                            for st in content:
+                                contstr.append(st.encode('utf-8'))
+                            bson = {
+                            'questionurl':questionurl.encode('utf-8'),
+                            'question':question,
+                            'authorurl':authorurl.encode('utf-8'),
+                            'authorid':authorid,
+                            'content':contstr
+                            }
+                            db.insert_one(bson)
+                        except Exception, e:
+                            pass
+                        break
 
+# 通过用户url获取用户信息，主要包括居住地、行业、性别、公司、职位、学校、专业
+def get_userinfo(url):
+    # 初始化数据库信息
+    db = client['Zhihu']['UserInfo']
+    metadata=['location item','business item','employment item',
+                'position item','education item','education-extra item','bio']
+    if url:
+        userinfo ={}
+        values = []
+        profile = session.get(url).text
+        soup = BeautifulSoup(profile.encode('utf-8'), 'html5lib')       
+        for item in metadata:
+            value = soup.find_all("span", attrs={"class":item}, recursive=True, text=None, limit=None)
+            if value:
+                result = value[0]['title'].encode('utf-8')
+                values.append(result)
+            else:
+                values.append(None)
+
+        # 完成用户信息填写
+        userinfo['url']=url
+        userinfo['location']=values[0]
+        userinfo['business']=values[1]
+        userinfo['employment']=values[2]
+        userinfo['position']=values[3]
+        userinfo['school']=values[4]
+        userinfo['major']=values[5]
+        userinfo['bio']=values[6]
+
+        # 用户名和性别信息跟其他几项结构不太一样，so...
+        useridtag = soup.find_all("div", attrs={"class":"title-section ellipsis"}, recursive=True, text=None, limit=None)
+        if useridtag:
+            userid = useridtag[0].select('.name')[0].next_element.encode('utf-8')
+            userinfo['userid']=userid
+
+        genderinfo = soup.find_all("span", attrs={"class":"item gender"}, recursive=True, text=None, limit=None)
+        if genderinfo:
+            if genderinfo[0].next_element['class'][1]=='icon-profile-male':
+                userinfo['gender']='male'
+            else:
+                userinfo['gender']='female'
+
+        db.insert_one(userinfo, bypass_document_validation=False)
+        
 if __name__ == '__main__':
-    get_individual()
+    get_userinfo("https://www.zhihu.com/people/chibaole")
         
 
 
