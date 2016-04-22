@@ -136,9 +136,7 @@ def get_topics():
                 a = item.a
                 topic = topicurl + a['href'].encode('utf-8')
                 topics.append(topic)
-                break
-            print len(topics)
-            return topics
+        return topics
     else:
         account = input('请输入你的用户名\n>  ')
         secret = input("请输入你的密码\n>  ")
@@ -163,7 +161,6 @@ def get_subtopics():
                     #print type(item)
                     answerurl = url +item['href']+"/top-answers"
                     topanswers.append(answerurl)
-                    break
     return topanswers
 
 # 获取到子话题之后，从每个子话题的精华回答中挑选前20个问题
@@ -219,14 +216,9 @@ def get_individual():
                         'content':contstr
                         }
                         print bson
-                        break
-                #print question
-
-            break
 
 if __name__ == '__main__':
     get_individual()
-
         
 
 
